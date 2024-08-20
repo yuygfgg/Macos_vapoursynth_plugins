@@ -24,13 +24,13 @@ jobs:
     - name: Copy files and test
       run: |
         sudo mkdir /usr/local/lib
-        sudo mkdir /usr/local/lib/vapoursynth
+        sudo mkdir /opt/homebrew/lib/vapoursynth
         sudo cp local-lib/* /usr/local/lib
-        sudo cp vapoursynth-libs/* /usr/local/lib/vapoursynth
-        sudo cp tools/checkdylib.py /usr/local/lib/vapoursynth
+        sudo cp vapoursynth-libs/* /opt/homebrew/lib/vapoursynth
+        sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
         cd test
         vspipe example.vpy /dev/null
-        cd /usr/local/lib/vapoursynth
+        cd /opt/homebrew/lib/vapoursynth
         ls
         for file in *; do sudo python checkdylib.py $file; done;
 
