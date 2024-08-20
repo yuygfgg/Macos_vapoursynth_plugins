@@ -30,10 +30,12 @@ jobs:
         sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
 
     - name: Test vspipe
+      run: |
         cd test
         vspipe example.vpy /dev/null
 
     - name: Test dylibs
+      run: |
         cd /opt/homebrew/lib/vapoursynth
         ls
         for file in *; do sudo python checkdylib.py $file; done;
