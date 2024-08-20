@@ -30,4 +30,4 @@ jobs:
         sudo cp tools/checkdylib.py /usr/local/lib/vapoursynth
         cd /usr/local/lib/vapoursynth
         ls
-        for file in .; do sudo python checkdylib.py $file; done;
+        for file in *; do sudo python checkdylib.py $file; done;
