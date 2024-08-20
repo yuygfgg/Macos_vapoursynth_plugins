@@ -20,6 +20,7 @@ jobs:
       run: |
         brew update
         brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract vvenc zstd
+        pip3 install git+https://github.com/HomeOfVapourSynthEvolution/mvsfunc
 
     - name: Copy files and test
       run: |
@@ -28,6 +29,9 @@ jobs:
         sudo cp local-lib/* /usr/local/lib
         sudo cp vapoursynth-libs/* /usr/local/lib/vapoursynth
         sudo cp tools/checkdylib.py /usr/local/lib/vapoursynth
+        cd test
+        vspipe example.vpy /dev/null
         cd /usr/local/lib/vapoursynth
         ls
         for file in *; do sudo python checkdylib.py $file; done;
+
