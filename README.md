@@ -16,7 +16,12 @@ libc++abi: terminating due to uncaught exception of type VSException: Failed to 
   Referenced from: <623AE20D-27FA-3D03-A2F7-8F697AB21A47> /usr/local/lib/vapoursynth/liblsmashsource.1.dylib
   Reason: tried: 'liblsmash.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSliblsmash.dylib' (no such file), 'liblsmash.dylib' (no such file), '/Users/a1/liblsmash.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Users/a1/liblsmash.dylib' (no such file), '/Users/a1/liblsmash.dylib' (no such file)
 ```
-make sure you have installed the dependency, or/and you should manually set those missing dylibs by
+make sure you have installed the dependency, or/and you should manually set those missing dylibs using the fix_missing_dylibs.py.
 ```bash
-sudo install_name_tool -change libxxhash.0.dylib /opt/homebrew/lib/libxxhash.dylib /usr/local/lib/vapoursynth/liblsmashsource.1.dylib
+python checkdylib.py /Users/a1/Downloads/liblsmashsource.1.dylib 
+Automatically fixed libxxhash.0.dylib to /opt/homebrew/lib/libxxhash.0.dylib
+Automatically fixed liblsmash.dylib to /usr/local/lib/liblsmash.dylib
+All dependencies are correctly configured.
 ```
+
+The script automatically looks for missing dylibs in ```/usr/local/lib``` and ```/opt/homebrew/lib```. You will need to manually configure missing dylibs if they are not there.
