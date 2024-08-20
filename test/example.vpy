@@ -1,32 +1,33 @@
-import vapoursynth as vs
-from vapoursynth import core
-import mvsfunc as mvf
+from vapoursynth import core 
+
+clip = core.bs.VideoSource('input.mkv')
+clip = core.fmtc.bitdepth(clip, bits=16)
+# def aa_process_eedi2(clip):
+#     w = clip.width
+#     h = clip.height
+#     aa_clip = core.std.ShufflePlanes(clip, 0, vs.GRAY)
+#     aa_clip = core.eedi2.EEDI2(aa_clip, field=1, mthresh=10, lthresh=20, vthresh=20, maxd=24, nt=50)
+#     aa_clip = core.fmtc.resample(aa_clip, w, h, 0, -0.5).std.Transpose()
+#     aa_clip = core.eedi2.EEDI2(aa_clip, field=1, mthresh=10, lthresh=20, vthresh=20, maxd=24, nt=50)
+#     aa_clip = core.fmtc.resample(aa_clip, h, w, 0, -0.5).std.Transpose()
+#     aaed = core.std.ShufflePlanes([aa_clip, clip], [0, 1, 2], vs.YUV)
+#     aaed = core.rgvs.Repair(aaed, clip, 2)
+#     return aaed
 
 
-src8 = core.bs.VideoSource(source='input.mkv')
-src16 = core.fmtc.bitdepth(src8, bits=16)
-
-# Denoise
-nr16 = core.nlm_ispc.NLMeans(src16, d=0, wmode=3, h=3)
-
-# Deband
-dbed = core.neo_f3kdb.Deband(nr16, 12, 72, 48, 48, 0, 0, output_depth=16).neo_f3kdb.Deband(24, 56, 32, 32, 0, 0, output_depth=16)
-dbed = mvf.LimitFilter(dbed, nr16, thr=0.55, elast=1.5, planes=[0, 1, 2])
-
-# AA
-nr16Y = core.std.ShufflePlanes(nr16, 0, vs.GRAY)
-aa_nr16Y = core.eedi2.EEDI2(nr16Y, field=1, mthresh=10, lthresh=20, vthresh=20, maxd=24, nt=50)
-aa_nr16Y = core.fmtc.resample(aa_nr16Y, 1920, 1080, 0, -0.5).std.Transpose()
-aa_nr16Y = core.eedi2.EEDI2(aa_nr16Y, field=1, mthresh=10, lthresh=20, vthresh=20, maxd=24, nt=50)
-aa_nr16Y = core.fmtc.resample(aa_nr16Y, 1080, 1920, 0, -0.5).std.Transpose()
-aaedY = core.rgvs.Repair(aa_nr16Y, nr16Y, 2)
-
-# Merge AA and Deband
-dbedY = core.std.ShufflePlanes(dbed, 0, vs.GRAY)
-mergedY = mvf.LimitFilter(dbedY, aaedY, thr=1.0, elast=1.5)
-merged = core.std.ShufflePlanes([mergedY, dbed], [0,1,2], vs.YUV)
-
-res = merged
-
-res.set_output()
-src8.set_output(1)
+# def aa_process_nnedi3(clip):
+#     w = clip.width
+#     h = clip.height
+#     aa_clip = core.std.ShufflePlanes(clip, 0, vs.GRAY)
+#     aa_clip = core.nnedi3.nnedi3(aa_clip, field=1, dh=True, nsize=3, nns=2, qual=2)
+#     aa_clip = core.fmtc.resample(aa_clip, w, h, 0, -0.5).std.Transpose()
+#     aa_clip = core.nnedi3.nnedi3(aa_clip, field=1, dh=True, nsize=3, nns=2, qual=2)
+#     aa_clip = core.fmtc.resample(aa_clip, h, w, 0, -0.5).std.Transpose()
+#     aaed = core.std.ShufflePlanes([aa_clip, clip], [0, 1, 2], vs.YUV)
+#     aaed = core.rgvs.Repair(aaed, clip, 2)
+#     return aaed
+addnoise16 = core.grain.Add(clip, var=10.0)
+diff = core.std.MakeDiff(clip, addnoise16).std.Expr(['x 32768 - 10 * 32768 +','32768'])
+addnoise16.set_output(0)
+clip.set_output(1)
+diff.set_output(2)
