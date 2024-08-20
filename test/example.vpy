@@ -15,19 +15,19 @@ clip = core.fmtc.bitdepth(clip, bits=16)
 #     return aaed
 
 
-# def aa_process_nnedi3(clip):
-#     w = clip.width
-#     h = clip.height
-#     aa_clip = core.std.ShufflePlanes(clip, 0, vs.GRAY)
-#     aa_clip = core.nnedi3.nnedi3(aa_clip, field=1, dh=True, nsize=3, nns=2, qual=2)
-#     aa_clip = core.fmtc.resample(aa_clip, w, h, 0, -0.5).std.Transpose()
-#     aa_clip = core.nnedi3.nnedi3(aa_clip, field=1, dh=True, nsize=3, nns=2, qual=2)
-#     aa_clip = core.fmtc.resample(aa_clip, h, w, 0, -0.5).std.Transpose()
-#     aaed = core.std.ShufflePlanes([aa_clip, clip], [0, 1, 2], vs.YUV)
-#     aaed = core.rgvs.Repair(aaed, clip, 2)
-#     return aaed
-addnoise16 = core.grain.Add(clip, var=10.0)
-diff = core.std.MakeDiff(clip, addnoise16).std.Expr(['x 32768 - 10 * 32768 +','32768'])
-addnoise16.set_output(0)
+def aa_nnedi3(clip):
+    w = clip.width
+    h = clip.height
+    aa_clip = core.std.ShufflePlanes(clip, 0, vs.GRAY)
+    aa_clip = core.nnedi3.nnedi3(aa_clip, field=1, dh=True, nsize=3, nns=2, qual=2)
+    aa_clip = core.fmtc.resample(aa_clip, w, h, 0, -0.5).std.Transpose()
+    aa_clip = core.nnedi3.nnedi3(aa_clip, field=1, dh=True, nsize=3, nns=2, qual=2)
+    aa_clip = core.fmtc.resample(aa_clip, h, w, 0, -0.5).std.Transpose()
+    aaed = core.std.ShufflePlanes([aa_clip, clip], [0, 1, 2], vs.YUV)
+    aaed = core.rgvs.Repair(aaed, clip, 2)
+    return aaed
+res = aa_nnedi3(clip)
+diff = core.std.MakeDiff(clip, res).std.Expr(['x 32768 - 10 * 32768 +','32768'])
+res.set_output(0)
 clip.set_output(1)
 diff.set_output(2)
