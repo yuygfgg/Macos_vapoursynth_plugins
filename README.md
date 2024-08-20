@@ -18,7 +18,7 @@ libc++abi: terminating due to uncaught exception of type VSException: Failed to 
 ```
 make sure you have installed the dependency, or/and you should manually set those missing dylibs using the fix_missing_dylibs.py.
 ```bash
-python checkdylib.py /Users/a1/Downloads/liblsmashsource.1.dylib 
+python fix_missing_dylibs.py /Users/a1/Downloads/liblsmashsource.1.dylib 
 Automatically fixed libxxhash.0.dylib to /opt/homebrew/lib/libxxhash.0.dylib
 Automatically fixed liblsmash.dylib to /usr/local/lib/liblsmash.dylib
 All dependencies are correctly configured.
