@@ -16,12 +16,13 @@ def load_dylib(dylib_path):
         match = re.search(r'Library not loaded: (.+)', error_message)
         if match:
             missing_dep = match.group(1).strip()
-            missing_name = os.path.basename(missing_dep)
-            return False, missing_name
+            # missing_name = os.path.basename(missing_dep)
+            return False, missing_dep
         else:
             return False, None
 
 def find_dependency(missing_name):
+    missing_name = os.path.basename(missing_name)
     search_paths = ['/opt/homebrew/lib', '/usr/local/lib']
     for path in search_paths:
         possible_path = os.path.join(path, missing_name)
@@ -61,7 +62,7 @@ def check_and_fix_dylib(dylib_path):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print("Usage: python fix_missing_dylibs.py <dylib_path>")
+        print("Usage: python check_and_fix_dylib.py <dylib_path>")
         sys.exit(1)
 
     dylib_path = sys.argv[1]
