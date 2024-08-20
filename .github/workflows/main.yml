@@ -27,11 +27,12 @@ jobs:
     - name: Copy files
       run: |
         sudo mkdir /usr/local/lib
+        sudo mkdir /usr/local/lib/vapoursynth
         sudo cp local-lib/* /usr/local/lib
-        sudo cp vapoursynth-libs/* /opt/homebrew/lib/vapoursynth
+        sudo cp vapoursynth-libs/* /usr/local/lib/vapoursynth
 
     - name: Test dylibs
       run: |
-        sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
-        cd /opt/homebrew/lib/vapoursynth
+        sudo cp tools/checkdylib.py /usr/local/lib/vapoursynth
+        cd /usr/local/lib/vapoursynth
         for file in .; do sudo python checkdylib.py $file; done;
