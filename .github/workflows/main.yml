@@ -19,10 +19,7 @@ jobs:
     - name: Install autotools and vapoursynth
       run: |
         brew update
-        brew install automake autoconf libtool pkg-config vapoursynth
-        
-    - name: Install brew packages
-      run: sh brew.sh
+        brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract zstd
 
     - name: Copy files and test
       run: |
@@ -32,4 +29,5 @@ jobs:
         sudo cp vapoursynth-libs/* /usr/local/lib/vapoursynth
         sudo cp tools/checkdylib.py /usr/local/lib/vapoursynth
         cd /usr/local/lib/vapoursynth
+        ls
         for file in .; do sudo python checkdylib.py $file; done;
