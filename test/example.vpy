@@ -1,4 +1,5 @@
 from vapoursynth import core 
+import vapoursynth as vs
 
 clip = core.bs.VideoSource('input.mkv')
 clip = core.fmtc.bitdepth(clip, bits=16)
