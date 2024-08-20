@@ -24,15 +24,12 @@ jobs:
     - name: Install brew packages
       run: sh brew.sh
 
-    - name: Copy files
+    - name: Copy files and test
       run: |
         sudo mkdir /usr/local/lib
         sudo mkdir /usr/local/lib/vapoursynth
         sudo cp local-lib/* /usr/local/lib
         sudo cp vapoursynth-libs/* /usr/local/lib/vapoursynth
-
-    - name: Test dylibs
-      run: |
         sudo cp tools/checkdylib.py /usr/local/lib/vapoursynth
         cd /usr/local/lib/vapoursynth
         for file in .; do sudo python checkdylib.py $file; done;
