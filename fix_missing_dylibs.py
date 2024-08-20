@@ -61,7 +61,7 @@ def check_and_fix_dylib(dylib_path):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print("Usage: python check_and_fix_dylib.py <dylib_path>")
+        print("Usage: python fix_missing_dylibs.py <dylib_path>")
         sys.exit(1)
 
     dylib_path = sys.argv[1]
