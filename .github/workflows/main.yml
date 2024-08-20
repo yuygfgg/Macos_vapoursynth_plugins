@@ -16,20 +16,24 @@ jobs:
     - name: Print compiler version
       run: ${{ env.CC }} --version
 
-    - name: Install autotools and vapoursynth
+    - name: Install dependencies and vapoursynth
       run: |
         brew update
         brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract pipx vvenc zstd
 
-    - name: Copy files and test
+    - name: Copy files
       run: |
         sudo mkdir /usr/local/lib
         sudo mkdir /opt/homebrew/lib/vapoursynth
         sudo cp local-lib/* /usr/local/lib
         sudo cp vapoursynth-libs/* /opt/homebrew/lib/vapoursynth
         sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
+
+    - name: Test vspipe
         cd test
         vspipe example.vpy /dev/null
+
+    - name: Test dylibs
         cd /opt/homebrew/lib/vapoursynth
         ls
         for file in *; do sudo python checkdylib.py $file; done;
