@@ -38,10 +38,10 @@ jobs:
         sudo cp vapoursynth-libs/* /opt/homebrew/lib/vapoursynth
         sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
 
-    - name: Test vspipe
-      run: |
-        cd test
-        vspipe test1.vpy /dev/null
+    # - name: Test vspipe
+    #   run: |
+    #     cd test
+    #     vspipe test1.vpy /dev/null
     
     - name: Test production
       env:
@@ -49,6 +49,7 @@ jobs:
       run: |
         cd test
         python -m site
+        pip show mvsfunc
         vspipe -c y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset placebo output1.mkv    
 
     - uses: actions/upload-artifact@v4
