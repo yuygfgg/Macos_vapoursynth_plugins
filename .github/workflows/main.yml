@@ -40,7 +40,15 @@ jobs:
     - name: Test vspipe
       run: |
         cd test
-        vspipe example.vpy /dev/null
+        vspipe test1.vpy /dev/null
+    
+    - name: Test production
+      run: |
+        vspipe --y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset placebo output1.mkv
+    
+    - uses: actions/upload-artifact@v4
+      with:
+        path: ./output1.mkv
 
     - name: Test dylibs
       run: |
