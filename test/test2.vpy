@@ -1,6 +1,5 @@
 import vapoursynth as vs
 from vapoursynth import core
-import mvsfunc as mvf
 
 src8 = core.lsmas.LWLibavSource(source='input2.mkv')
 src16 = core.fmtc.bitdepth(src8, bits=16)
@@ -10,8 +9,6 @@ nr16 = core.nlm_ispc.NLMeans(src16, d=0, wmode=0, h=3)
 
 # Deband
 dbed = core.neo_f3kdb.Deband(nr16, 12, 72, 48, 48, 0, 0, output_depth=16).neo_f3kdb.Deband(24, 56, 32, 32, 0, 0, output_depth=16)
-dbed = mvf.LimitFilter(dbed, nr16, thr=0.55, elast=1.5, planes=[0, 1, 2])
-
 # AA
 nr16Y = core.std.ShufflePlanes(nr16, 0, vs.GRAY)
 aa_nr16Y = core.eedi2.EEDI2(nr16Y, field=1, mthresh=10, lthresh=20, vthresh=20, maxd=24, nt=50)
@@ -22,7 +19,7 @@ aaedY = core.rgvs.Repair(aa_nr16Y, nr16Y, 2)
 
 # Merge AA and Deband
 dbedY = core.std.ShufflePlanes(dbed, 0, vs.GRAY)
-mergedY = core.std.MakeDiff(dbedY, aaedY, thr=1.0, elast=1.5)
+mergedY = core.std.MakeDiff(dbedY, aaedY, 0.9)
 merged = core.std.ShufflePlanes([mergedY, dbed], [0,1,2], vs.YUV)
 
 res = merged
