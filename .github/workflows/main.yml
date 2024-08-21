@@ -45,9 +45,10 @@ jobs:
     
     - name: Test production
       env:
-        PYTHONPATH: /usr/lib/python3.12/site-packages
+        PYTHONPATH: /Users/runner/Library/Python/3.12/lib/python/site-packages
       run: |
         cd test
+        python -m site
         vspipe -c y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset placebo output1.mkv    
 
     - uses: actions/upload-artifact@v4
