@@ -1,7 +1,6 @@
 import vapoursynth as vs
 from vapoursynth import core
-import mvsfunc as mvf
-
+from mvsfunc import mvsfunc as mvf
 
 src8 = core.lsmas.LWLibavSource(source='input2.mkv')
 src16 = core.fmtc.bitdepth(src8, bits=16)
