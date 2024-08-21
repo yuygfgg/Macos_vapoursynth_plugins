@@ -44,11 +44,12 @@ jobs:
     
     - name: Test production
       run: |
+        cd test
         vspipe -c y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset placebo output1.mkv    
 
     - uses: actions/upload-artifact@v4
       with:
-        path: ./output1.mkv
+        path: test/output1.mkv
 
     - name: Test dylibs
       run: |
