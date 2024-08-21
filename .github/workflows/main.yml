@@ -25,8 +25,8 @@ jobs:
       run: |
         brew update
         brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract pipx vvenc zstd
-        export LIBRARY_PATH=/opt/homebrew/lib/vapoursynth:$LIBRARY_PATH
-        export LD_LIBRARY_PATH=/opt/homebrew/lib/vapoursynth:$LD_LIBRARY_PATH
+        export LIBRARY_PATH=/opt/homebrew/lib/:$LIBRARY_PATH
+        export LD_LIBRARY_PATH=/opt/homebrew/lib/:$LD_LIBRARY_PATH
         pip install git+https://github.com/HomeOfVapourSynthEvolution/mvsfunc
         
     - name: Copy files
