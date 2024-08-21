@@ -1,6 +1,6 @@
 import vapoursynth as vs
 from vapoursynth import core
-from mvsfunc import mvsfunc as mvf
+import mvsfunc as mvf
 
 src8 = core.lsmas.LWLibavSource(source='input2.mkv')
 src16 = core.fmtc.bitdepth(src8, bits=16)
@@ -22,17 +22,10 @@ aaedY = core.rgvs.Repair(aa_nr16Y, nr16Y, 2)
 
 # Merge AA and Deband
 dbedY = core.std.ShufflePlanes(dbed, 0, vs.GRAY)
-mergedY = mvf.LimitFilter(dbedY, aaedY, thr=1.0, elast=1.5)
+mergedY = core.std.MakeDiff(dbedY, aaedY, thr=1.0, elast=1.5)
 merged = core.std.ShufflePlanes([mergedY, dbed], [0,1,2], vs.YUV)
 
 res = merged
-
-# OKE:DEBUG
-Debug = False
-if Debug:
-    res = mvf.ToRGB(res, full=False, depth=8)
-else:
-    res = core.fmtc.bitdepth(res, bits=10)
 
 res.set_output()
 src8.set_output(1)

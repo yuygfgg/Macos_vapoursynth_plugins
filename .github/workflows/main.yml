@@ -12,6 +12,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - run: |
+        python -c "import sys; print(sys.path)"
 
     - name: Print compiler version
       run: ${{ env.CC }} --version
@@ -20,7 +26,8 @@ jobs:
       run: |
         brew update
         brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract pipx vvenc zstd
-        
+        pip install git+https://github.com/HomeOfVapourSynthEvolution/mvsfunc
+
     - name: Copy files
       run: |
         sudo mkdir /usr/local/lib
