@@ -19,10 +19,11 @@ aaedY = core.rgvs.Repair(aa_nr16Y, nr16Y, 2)
 
 # Merge AA and Deband
 dbedY = core.std.ShufflePlanes(dbed, 0, vs.GRAY)
-mergedY = core.std.MakeDiff(dbedY, aaedY, 0.9)
+mergedY = core.std.Merge(dbedY, aaedY, 1)
 merged = core.std.ShufflePlanes([mergedY, dbed], [0,1,2], vs.YUV)
-
+diff = core.std.MakeDiff(merged, src16).std.Expr(['x 32768 - 10 * 32768 +','32768'])
 res = merged
 
 res.set_output()
-src8.set_output(1)
+nr16.set_output(1)
+diff.set_output(2)

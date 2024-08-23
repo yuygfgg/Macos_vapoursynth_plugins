@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: vse-previewer /path/to/vpy"
+    exit 1
+fi
+
+# Run the command with the provided argument
+python -m vspreview "$1"
