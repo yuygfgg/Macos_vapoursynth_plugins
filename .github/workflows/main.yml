@@ -25,13 +25,13 @@ jobs:
 
     - name: Install dependencies and vapoursynth
       env:
-        PYTHONPATH: /Users/runner/hostedtoolcache/Python/3.12.5/arm64/bin/python
+        PYTHONPATH: /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
       run: |
         brew update
         brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract pipx vvenc zstd
         export LIBRARY_PATH=/opt/homebrew/lib/:$LIBRARY_PATH
         export LD_LIBRARY_PATH=/opt/homebrew/lib/:$LD_LIBRARY_PATH
-        export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/bin/python
+        export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
         pip install git+https://github.com/HomeOfVapourSynthEvolution/mvsfunc
 
     - name: Copy files
@@ -49,10 +49,11 @@ jobs:
     
     - name: Test production
       env:
-        PYTHONPATH: /Users/runner/hostedtoolcache/Python/3.12.5/arm64/bin/python
+        PYTHONPATH: /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
       run: |
+        export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
+        cp -r /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/mvsfunc /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
         cd test
-        export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/bin/python
         python -m site
         pip show mvsfunc
         vspipe -c y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset placebo output1.mkv    
