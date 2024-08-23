@@ -18,6 +18,7 @@ jobs:
         python-version: 3.12
     - run: |
         python -m site
+        whereis python
 
     - name: Print compiler version
       run: ${{ env.CC }} --version
