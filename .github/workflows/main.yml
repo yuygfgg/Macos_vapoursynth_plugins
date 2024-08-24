@@ -3,7 +3,7 @@ name: macOS
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build-clang:
+  install_and_test:
     runs-on: macos-latest
 
     env:
