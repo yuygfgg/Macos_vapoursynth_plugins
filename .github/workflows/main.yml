@@ -34,7 +34,7 @@ jobs:
         export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
         pip install git+https://github.com/yuygfgg/mvsfunc
         wget https://github.com/HomeOfVapourSynthEvolution/havsfunc/archive/refs/tags/r33.tar.gz
-        tar -xzvf havsfunc-r33.tar.gz
+        tar -xzvf r33.tar.gz
 
     - name: Copy files
       run: |
