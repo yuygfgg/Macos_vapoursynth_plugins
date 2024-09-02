@@ -33,6 +33,8 @@ jobs:
         export LD_LIBRARY_PATH=/opt/homebrew/lib/:$LD_LIBRARY_PATH
         export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
         pip install git+https://github.com/yuygfgg/mvsfunc
+        wget https://github.com/HomeOfVapourSynthEvolution/havsfunc/archive/refs/tags/r33.tar.gz
+        tar -xzvf havsfunc-r33.tar.gz
 
     - name: Copy files
       run: |
@@ -42,6 +44,7 @@ jobs:
         sudo cp vapoursynth-libs/* /opt/homebrew/lib/vapoursynth
         sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
         sudo cp -r /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/mvsfunc/ /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
+        sudo cp havsfunc-r33/havsfunc.py /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages/
 
     - name: Test vspipe
       run: |
