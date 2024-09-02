@@ -33,6 +33,7 @@ jobs:
         export LD_LIBRARY_PATH=/opt/homebrew/lib/:$LD_LIBRARY_PATH
         export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
         pip install git+https://github.com/yuygfgg/mvsfunc
+        pip install havsfunc
         wget https://github.com/HomeOfVapourSynthEvolution/havsfunc/archive/refs/tags/r33.tar.gz
         tar -xzvf r33.tar.gz
 
