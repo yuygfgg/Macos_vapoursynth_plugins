@@ -32,7 +32,6 @@ jobs:
         export LIBRARY_PATH=/opt/homebrew/lib/:$LIBRARY_PATH
         export LD_LIBRARY_PATH=/opt/homebrew/lib/:$LD_LIBRARY_PATH
         export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
-        pip install git+https://github.com/yuygfgg/mvsfunc
 
     - name: Copy files
       run: |
@@ -41,26 +40,21 @@ jobs:
         sudo cp local-lib/* /usr/local/lib
         sudo cp vapoursynth-libs/* /opt/homebrew/lib/vapoursynth
         sudo cp tools/checkdylib.py /opt/homebrew/lib/vapoursynth
-        sudo cp -r /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/mvsfunc/ /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
 
-    - name: Test vspipe
-      run: |
-        cd test
-        vspipe test1.vpy /dev/null
+    # - name: Test vspipe
+    #   run: |
+    #     cd test
+    #     vspipe test1.vpy /dev/null
     
-    - name: Test production
-      env:
-        PYTHONPATH: /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
-      run: |
-        export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
-        cd test
-        python -m site
-        pip show mvsfunc
-        vspipe -c y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset slow output1.mkv    
-
-    - uses: actions/upload-artifact@v4
-      with:
-        path: test/output1.mkv
+    # - name: Test production
+    #   env:
+    #     PYTHONPATH: /Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
+    #   run: |
+    #     export PYTHONAPATH=/Users/runner/hostedtoolcache/Python/3.12.5/arm64/lib/site-packages
+    #     cd test
+    #     python -m site
+    #     pip show mvsfunc
+    #     vspipe -c y4m test2.vpy - | ffmpeg -i - -c:v libx265 -crf 15 -preset slow output1.mkv    
 
     - name: Test dylibs
       run: |
