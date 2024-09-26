@@ -5,4 +5,4 @@ SIMD plugins are ported with sse2neon. I will open pull requests for some of the
 
 libakarin is using dynamic link to meet github requirement of <25 MB.
 
-Recommended Vapoursynth version: https://github.com/yuygfgg/vapoursynth-classic
+Vapoursynth: https://github.com/yuygfgg/vapoursynth-classic, X265: https://github.com/yuygfgg/x265
