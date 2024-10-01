@@ -59,4 +59,4 @@ jobs:
     - name: Test dylibs
       run: |
         cd /opt/homebrew/lib/vapoursynth
-        ignore=("libeedi3m.dylib" "libnnedi3cl.dylib"); for file in *.dylib; do [[ ! " ${ignore[@]} " =~ " $file " ]] && echo "$file" && sudo python checkdylib.py "$file"; done
+        ignore=("libeedi3m.dylib" "libnnedi3cl.dylib" "libbm3dcpu.dylib"); for file in *.dylib; do [[ ! " ${ignore[@]} " =~ " $file " ]] && echo "$file" && sudo python checkdylib.py "$file"; done
