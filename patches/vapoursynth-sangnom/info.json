@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/vapoursynth-sangnom",
+    "owner": "yuygfgg",
+    "name": "vapoursynth-sangnom"
+  },
+  "upstream": {
+    "url": "https://github.com/dubhater/vapoursynth-sangnom",
+    "default_branch": "master",
+    "owner": "dubhater",
+    "name": "vapoursynth-sangnom"
+  },
+  "patch_file": "vapoursynth-sangnom.patch",
+  "generated_time": "2024-11-05T10:54:21.421791"
+}

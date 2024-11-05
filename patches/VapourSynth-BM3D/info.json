@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-BM3D",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-BM3D"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-BM3D",
+    "default_branch": "master",
+    "owner": "HomeOfVapourSynthEvolution",
+    "name": "VapourSynth-BM3D"
+  },
+  "patch_file": "VapourSynth-BM3D.patch",
+  "generated_time": "2024-11-05T10:54:12.302510"
+}

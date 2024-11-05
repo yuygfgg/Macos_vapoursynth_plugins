@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-AddGrain",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-AddGrain"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-AddGrain",
+    "default_branch": "master",
+    "owner": "HomeOfVapourSynthEvolution",
+    "name": "VapourSynth-AddGrain"
+  },
+  "patch_file": "VapourSynth-AddGrain.patch",
+  "generated_time": "2024-11-05T10:54:28.860316"
+}

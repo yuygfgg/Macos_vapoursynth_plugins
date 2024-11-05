@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-BM3DCUDA-Universal",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-BM3DCUDA-Universal"
+  },
+  "upstream": {
+    "url": "https://github.com/WolframRhodium/VapourSynth-BM3DCUDA",
+    "default_branch": "main",
+    "owner": "WolframRhodium",
+    "name": "VapourSynth-BM3DCUDA"
+  },
+  "patch_file": "VapourSynth-BM3DCUDA-Universal.patch",
+  "generated_time": "2024-11-05T10:54:04.397548"
+}

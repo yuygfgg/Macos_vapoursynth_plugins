@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-FFT3DFilter",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-FFT3DFilter"
+  },
+  "upstream": {
+    "url": "https://github.com/AmusementClub/VapourSynth-FFT3DFilter",
+    "default_branch": "mod",
+    "owner": "AmusementClub",
+    "name": "VapourSynth-FFT3DFilter"
+  },
+  "patch_file": "VapourSynth-FFT3DFilter.patch",
+  "generated_time": "2024-11-05T10:54:40.418245"
+}

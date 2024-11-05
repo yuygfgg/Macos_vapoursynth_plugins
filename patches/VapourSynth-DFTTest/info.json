@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-DFTTest",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-DFTTest"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest",
+    "default_branch": "master",
+    "owner": "HomeOfVapourSynthEvolution",
+    "name": "VapourSynth-DFTTest"
+  },
+  "patch_file": "VapourSynth-DFTTest.patch",
+  "generated_time": "2024-11-05T10:54:48.582496"
+}

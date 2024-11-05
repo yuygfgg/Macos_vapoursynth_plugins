@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-CAS",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-CAS"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-CAS",
+    "default_branch": "master",
+    "owner": "HomeOfVapourSynthEvolution",
+    "name": "VapourSynth-CAS"
+  },
+  "patch_file": "VapourSynth-CAS.patch",
+  "generated_time": "2024-11-05T10:54:25.046035"
+}

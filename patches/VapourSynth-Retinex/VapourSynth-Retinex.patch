@@ -1,0 +1,232 @@
+diff --git a/source/Gaussian.cpp b/source/Gaussian.cpp
+index e0efbfd..3fd97ca 100644
+--- a/source/Gaussian.cpp
++++ b/source/Gaussian.cpp
+@@ -19,6 +19,9 @@
+ 
+ #include "Gaussian.h"
+ 
++#ifdef __ARM_NEON__
++#include <arm_neon.h>
++#endif
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+@@ -38,6 +41,210 @@ void Recursive_Gaussian_Parameters(const double sigma, FLType & B, FLType & B1,
+     B3 = static_cast<FLType>(b3 / b0);
+ }
+ 
++#ifdef __ARM_NEON__
++
++constexpr int vectorSize = 2;
++
++void Recursive_Gaussian2D_Vertical(FLType * output, const FLType * input, int height, int width, int stride, const FLType B, const FLType B1, const FLType B2, const FLType B3)
++{
++    
++    float64x2_t vB = vdupq_n_f64(B);
++    float64x2_t vB1 = vdupq_n_f64(B1);
++    float64x2_t vB2 = vdupq_n_f64(B2);
++    float64x2_t vB3 = vdupq_n_f64(B3);
++
++    if (output != input)
++    {
++        memcpy(output, input, sizeof(FLType) * width);
++    }
++
++    int vectorWidth = width / vectorSize * vectorSize;
++    
++    for (int j = 0; j < height; j++)
++    {
++        int lower = stride * j;
++        
++        for (int i = 0; i < vectorWidth; i += vectorSize)
++        {
++            int curr = lower + i;
++            int prev1 = j < 1 ? curr : curr - stride;
++            int prev2 = j < 2 ? prev1 : prev1 - stride;
++            int prev3 = j < 3 ? prev2 : prev2 - stride;
++
++            float64x2_t vP0 = vld1q_f64(&input[curr]);
++            float64x2_t vP1 = vld1q_f64(&output[prev1]);
++            float64x2_t vP2 = vld1q_f64(&output[prev2]);
++            float64x2_t vP3 = vld1q_f64(&output[prev3]);
++
++            float64x2_t vResult = vmulq_f64(vB, vP0);
++            vResult = vfmaq_f64(vResult, vB1, vP1);
++            vResult = vfmaq_f64(vResult, vB2, vP2);
++            vResult = vfmaq_f64(vResult, vB3, vP3);
++
++            vst1q_f64(&output[curr], vResult);
++        }
++
++        for (int i = vectorWidth; i < width; i++)
++        {
++            int curr = lower + i;
++            int prev1 = j < 1 ? curr : curr - stride;
++            int prev2 = j < 2 ? prev1 : prev1 - stride;
++            int prev3 = j < 3 ? prev2 : prev2 - stride;
++
++            FLType P0 = input[curr];
++            FLType P1 = output[prev1];
++            FLType P2 = output[prev2];
++            FLType P3 = output[prev3];
++            output[curr] = B*P0 + B1*P1 + B2*P2 + B3*P3;
++        }
++    }
++
++    for (int j = height - 1; j >= 0; j--)
++    {
++        int lower = stride * j;
++
++        for (int i = 0; i < vectorWidth; i += vectorSize)
++        {
++            int curr = lower + i;
++            int next1 = j >= height - 1 ? curr : curr + stride;
++            int next2 = j >= height - 2 ? next1 : next1 + stride;
++            int next3 = j >= height - 3 ? next2 : next2 + stride;
++
++            float64x2_t vP0 = vld1q_f64(&output[curr]);
++            float64x2_t vP1 = vld1q_f64(&output[next1]);
++            float64x2_t vP2 = vld1q_f64(&output[next2]);
++            float64x2_t vP3 = vld1q_f64(&output[next3]);
++
++            float64x2_t vResult = vmulq_f64(vB, vP0);
++            vResult = vfmaq_f64(vResult, vB1, vP1);
++            vResult = vfmaq_f64(vResult, vB2, vP2);
++            vResult = vfmaq_f64(vResult, vB3, vP3);
++
++            vst1q_f64(&output[curr], vResult);
++        }
++
++        for (int i = vectorWidth; i < width; i++)
++        {
++            int curr = lower + i;
++            int next1 = j >= height - 1 ? curr : curr + stride;
++            int next2 = j >= height - 2 ? next1 : next1 + stride;
++            int next3 = j >= height - 3 ? next2 : next2 + stride;
++
++            FLType P0 = output[curr];
++            FLType P1 = output[next1];
++            FLType P2 = output[next2];
++            FLType P3 = output[next3];
++            output[curr] = B*P0 + B1*P1 + B2*P2 + B3*P3;
++        }
++    }
++}
++
++void Recursive_Gaussian2D_Horizontal(FLType * output, const FLType * input, int height, int width, int stride, const FLType B, const FLType B1, const FLType B2, const FLType B3)
++{
++    float64x2_t vB = vdupq_n_f64(B);
++    float64x2_t vB1 = vdupq_n_f64(B1);
++    float64x2_t vB2 = vdupq_n_f64(B2);
++    float64x2_t vB3 = vdupq_n_f64(B3);
++
++    for (int j = 0; j < height; j++)
++    {
++        int lower = stride * j;
++        int upper = lower + width;
++
++        output[lower] = input[lower];
++        FLType P1 = output[lower];
++        FLType P2 = P1;
++        FLType P3 = P1;
++
++        int i = lower + 1;
++        for (; i < lower + 3 && i < upper; i++)
++        {
++            FLType P0 = B*input[i] + B1*P1 + B2*P2 + B3*P3;
++            P3 = P2;
++            P2 = P1;
++            P1 = P0;
++            output[i] = P0;
++        }
++
++        float64x2_t vP1 = vdupq_n_f64(P1);
++        float64x2_t vP2 = vdupq_n_f64(P2);
++        float64x2_t vP3 = vdupq_n_f64(P3);
++
++        for (; i + vectorSize <= upper; i += vectorSize)
++        {
++            float64x2_t vIn = vld1q_f64(&input[i]);
++            float64x2_t vResult = vmulq_f64(vB, vIn);
++            vResult = vfmaq_f64(vResult, vB1, vP1);
++            vResult = vfmaq_f64(vResult, vB2, vP2);
++            vResult = vfmaq_f64(vResult, vB3, vP3);
++
++            vP3 = vP2;
++            vP2 = vP1;
++            vP1 = vResult;
++            vst1q_f64(&output[i], vResult);
++        }
++
++        P1 = vgetq_lane_f64(vP1, 1);
++        P2 = vgetq_lane_f64(vP2, 1);
++        P3 = vgetq_lane_f64(vP3, 1);
++
++        for (; i < upper; i++)
++        {
++            FLType P0 = B*input[i] + B1*P1 + B2*P2 + B3*P3;
++            P3 = P2;
++            P2 = P1;
++            P1 = P0;
++            output[i] = P0;
++        }
++
++        i = upper - 1;
++        P1 = P2 = P3 = output[i];
++
++        i--;
++        for (; i > upper - 4 && i >= lower; i--)
++        {
++            FLType P0 = B*output[i] + B1*P1 + B2*P2 + B3*P3;
++            P3 = P2;
++            P2 = P1;
++            P1 = P0;
++            output[i] = P0;
++        }
++
++        vP1 = vdupq_n_f64(P1);
++        vP2 = vdupq_n_f64(P2);
++        vP3 = vdupq_n_f64(P3);
++
++        for (; i >= lower + vectorSize; i -= vectorSize)
++        {
++            float64x2_t vOut = vld1q_f64(&output[i-1]);
++            float64x2_t vResult = vmulq_f64(vB, vOut);
++            vResult = vfmaq_f64(vResult, vB1, vP1);
++            vResult = vfmaq_f64(vResult, vB2, vP2);
++            vResult = vfmaq_f64(vResult, vB3, vP3);
++
++            vP3 = vP2;
++            vP2 = vP1;
++            vP1 = vResult;
++            vst1q_f64(&output[i-1], vResult);
++        }
++
++        P1 = vgetq_lane_f64(vP1, 0);
++        P2 = vgetq_lane_f64(vP2, 0);
++        P3 = vgetq_lane_f64(vP3, 0);
++
++        for (; i >= lower; i--)
++        {
++            FLType P0 = B*output[i] + B1*P1 + B2*P2 + B3*P3;
++            P3 = P2;
++            P2 = P1;
++            P1 = P0;
++            output[i] = P0;
++        }
++    }
++}
++
++#else
++
+ void Recursive_Gaussian2D_Vertical(FLType * output, const FLType * input, int height, int width, int stride, const FLType B, const FLType B1, const FLType B2, const FLType B3)
+ {
+     int i0, i1, i2, i3, j, lower, upper;
+@@ -125,5 +332,6 @@ void Recursive_Gaussian2D_Horizontal(FLType * output, const FLType * input, int
+     }
+ }
+ 
++#endif
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

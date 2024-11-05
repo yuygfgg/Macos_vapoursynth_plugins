@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/L-SMASH-Works",
+    "owner": "yuygfgg",
+    "name": "L-SMASH-Works"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works",
+    "default_branch": "master",
+    "owner": "HomeOfAviSynthPlusEvolution",
+    "name": "L-SMASH-Works"
+  },
+  "patch_file": "L-SMASH-Works.patch",
+  "generated_time": "2024-11-05T10:54:17.364880"
+}

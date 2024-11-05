@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-TCanny",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-TCanny"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TCanny",
+    "default_branch": "master",
+    "owner": "HomeOfVapourSynthEvolution",
+    "name": "VapourSynth-TCanny"
+  },
+  "patch_file": "VapourSynth-TCanny.patch",
+  "generated_time": "2024-11-05T10:53:53.423892"
+}
