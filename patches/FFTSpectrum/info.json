@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/FFTSpectrum",
+    "owner": "yuygfgg",
+    "name": "FFTSpectrum"
+  },
+  "upstream": {
+    "url": "https://github.com/Beatrice-Raws/FFTSpectrum",
+    "default_branch": "master",
+    "owner": "Beatrice-Raws",
+    "name": "FFTSpectrum"
+  },
+  "patch_file": "FFTSpectrum.patch",
+  "generated_time": "2024-12-15T21:49:26.167723"
+}

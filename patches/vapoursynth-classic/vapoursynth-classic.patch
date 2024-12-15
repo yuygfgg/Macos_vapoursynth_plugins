@@ -80,7 +80,7 @@ index c35ce560..ef0f37b7 100644
 +      run: python -m unittest discover -s test -p "*test.py"
 \ No newline at end of file
 diff --git a/.github/workflows/macos.yml b/.github/workflows/macos.yml
-index 3fce1188..d1422eef 100644
+index 3fce1188..8663aa5f 100644
 --- a/.github/workflows/macos.yml
 +++ b/.github/workflows/macos.yml
 @@ -5,6 +5,9 @@ on: [push, pull_request, workflow_dispatch]
@@ -93,6 +93,15 @@ index 3fce1188..d1422eef 100644
  
      env:
        CC: clang
+@@ -23,7 +26,7 @@ jobs:
+ 
+     - name: Install zimg
+       run: |
+-        git clone https://github.com/sekrit-twc/zimg --branch v3.0 --depth 1
++        git clone https://bitbucket.org/the-sekrit-twc/zimg.git --recurse-submodules
+         pushd zimg
+         ./autogen.sh
+         ./configure
 @@ -36,7 +39,7 @@ jobs:
        uses: actions/setup-python@v5
        with:

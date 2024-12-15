@@ -1,0 +1,15 @@
+{
+  "downstream": {
+    "url": "https://github.com/yuygfgg/VapourSynth-TDeintMod",
+    "owner": "yuygfgg",
+    "name": "VapourSynth-TDeintMod"
+  },
+  "upstream": {
+    "url": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TDeintMod",
+    "default_branch": "master",
+    "owner": "HomeOfVapourSynthEvolution",
+    "name": "VapourSynth-TDeintMod"
+  },
+  "patch_file": "VapourSynth-TDeintMod.patch",
+  "generated_time": "2024-12-15T21:49:35.299398"
+}
