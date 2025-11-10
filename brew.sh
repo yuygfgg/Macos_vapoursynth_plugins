@@ -1,1 +1,0 @@
-brew install automake autoconf libtool pkg-config vapoursynth libx11 ffmpeg fftw xxhash fontconfig freetype gettext glib imagemagick libarchive libass liblqr little-cms2 llvm llvm@15 tesseract pipx vvenc vulkan-loader zstd libplacebo boost
